@@ -11,3 +11,52 @@
 @media(max-width:380px){.studio-composition{height:385px}.studio-type{font-size:31px}.studio-film{width:59%;height:195px;right:14px;bottom:55px}.studio-film-bottom{font-size:12px}.studio-build{left:13px;padding:15px;width:43%;bottom:70px}.studio-caption{font-size:6px}.studio-footer{font-size:6px}.hero-copy h1{font-size:42px}.reel-card{flex-basis:88%}}
 
 .instagram-embed{width:100%;height:100%;border:0;background:#fff}.instagram-launch{width:100%;height:100%;border:0;color:#fff;background:linear-gradient(150deg,#39594b,#273b33);font:inherit;font-size:1.15rem;cursor:pointer}.instagram-launch[hidden],.instagram-embed[hidden]{display:none}
+
+/* Readable typography across desktop and mobile. */
+body { font-size:17px; line-height:1.75; }
+nav { font-size:15px; gap:24px; }
+.intro { font-size:18px; line-height:1.8; max-width:460px; }
+.button, .training-price-row .button, .text-link { font-size:15px; }
+.eyebrow, .hero-topline .eyebrow, .edition, .training-header .eyebrow,
+.film-heading .eyebrow { font-size:12px; letter-spacing:1.25px; }
+.hero-copy .hello { font-size:15px; }
+.discipline-strip>.wrap { font-size:14px; flex-wrap:wrap; }
+.section-heading>p, .case-copy>p, .case-details p,
+.service-copy p, .service-quote p, .training-description,
+.training-topics, .training-bottom p, .about-copy>p:not(.eyebrow),
+.contact-grid>div>p:not(.eyebrow), .film-heading>div>p:not(.eyebrow),
+.reel-caption p, .film-enquiry, .film-empty p, .video-owner form>p { font-size:16px; line-height:1.75; }
+.case-tags>span, .case-index, .case-details .detail-label,
+.case-details .case-disclosure, .service-number, .service-copy .service-items,
+.quote-currency, .reel-category, .reel-count, .film-status,
+.video-owner summary span, .form-note, form label>span,
+footer p, footer>a:last-child { font-size:13px; }
+.case-details summary, .video-owner summary, form label { font-size:15px; }
+form input, form textarea, form select { font-size:16px; }
+.training-quote { font-size:22px; }
+.reel-brand, .video-hint { font-size:15px; }
+.studio-caption, .studio-footer { font-size:11px; letter-spacing:1px; }
+.studio-build p, .studio-film-top, .studio-film-top>span { font-size:13px; }
+.visual-pill, .visual-bottom, .health-note>span:last-child { font-size:11px; }
+.studio-build { width:45%; }
+@media(max-width:1100px) and (min-width:761px) {
+  nav { gap:15px; font-size:14px; }
+}
+@media(max-width:760px) {
+  body { font-size:16px; }
+  .intro { font-size:17px; }
+  nav { font-size:17px; }
+  .service-row { grid-template-columns:20px 38px minmax(0,1fr) 30px; }
+  .service-row h3 { font-size:24px; }
+  .service-copy { min-width:0; }
+  .studio-build { padding:14px; }
+  .studio-caption { flex-wrap:wrap; gap:8px; }
+  .training-price-row { gap:18px; flex-wrap:wrap; }
+  .form-note { max-width:260px; }
+  .film-heading { flex-wrap:wrap; }
+}
+@media(max-width:380px) {
+  .studio-build p { font-size:12px; }
+  .studio-caption, .studio-footer { font-size:10px; }
+  .service-row { grid-template-columns:16px 32px minmax(0,1fr) 26px; gap:9px; }
+}
