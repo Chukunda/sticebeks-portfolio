@@ -1,7 +1,7 @@
 const data = window.portfolio;
 const make = (tag, className, text) => { const node = document.createElement(tag); if (className) node.className = className; if (text) node.textContent = text; return node; };
 document.querySelectorAll('[data-name]').forEach(node => node.textContent = data.name);
-document.title = `${data.name} — ${data.fullName} | Code, stories & learning`;
+document.title = `${data.name} — ${data.fullName} | Websites & visual stories`;
 document.querySelector('meta[property="og:title"]').content = document.title;
 document.getElementById('year').textContent = new Date().getFullYear();
 const emailLink = document.getElementById('contact-email');
@@ -19,7 +19,7 @@ data.services.forEach((service, index) => {
   const row = make('article', 'service-row'); row.append(make('span', 'service-number', `0${index + 1}`));
   const icon = make('span', 'service-icon', service.symbol); icon.setAttribute('aria-hidden', 'true'); row.append(icon, make('h3', '', service.name));
   const copy = make('div', 'service-copy'); copy.append(make('p', '', service.description), make('p', 'service-items', service.items)); row.append(copy);
-  const link = make('a', 'service-arrow', '↗'); link.href = '#contact'; link.setAttribute('aria-label', `Inquire about ${service.name}`); link.addEventListener('click', () => selectService(service.name)); row.append(link); document.getElementById('services-list').append(row);
+  const link = make('a', 'service-path-link', service.cta + ' ↗'); link.href = service.target; link.setAttribute('aria-label', service.cta + ' — ' + service.name); row.append(link); document.getElementById('services-list').append(row);
 });
 data.training.forEach(training => {
   const card = make('article', `training-card ${training.theme}`);

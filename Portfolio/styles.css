@@ -60,3 +60,22 @@ form input, form textarea, form select { font-size:16px; }
   .studio-caption, .studio-footer { font-size:10px; }
   .service-row { grid-template-columns:16px 32px minmax(0,1fr) 26px; gap:9px; }
 }
+
+/* Three clear client paths, with Heartlink leading software work. */
+.software-heading { scroll-margin-top:35px; margin:0 0 30px; max-width:660px; }
+.software-heading h3 { font-size:clamp(30px,3vw,40px); line-height:1.2; letter-spacing:-1px; margin-bottom:18px; }
+.software-heading>p:not(.eyebrow) { color:var(--muted); font-size:17px; }
+.software-enquiry { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px; padding:8px 0 25px; }
+.software-enquiry p { margin:0; }
+.service-row { grid-template-columns:25px 42px minmax(160px,1fr) minmax(220px,1.3fr) auto; gap:20px; }
+.service-path-link { font-size:14px; font-weight:600; border-bottom:1px solid #a5b39b; padding:8px 0; white-space:nowrap; }
+.discipline-strip a { padding:7px 0; }
+.discipline-strip a:hover { text-decoration:underline; text-underline-offset:5px; }
+@media(max-width:1100px) { .service-row { grid-template-columns:25px 42px minmax(0,1fr); } .service-copy { grid-column:3; } .service-path-link { grid-column:3; justify-self:start; } }
+@media(max-width:760px) { .service-row { grid-template-columns:20px 38px minmax(0,1fr); gap:12px; } .service-copy { grid-row:auto; } .discipline-strip>.wrap { flex-direction:column; gap:3px; align-items:flex-start; } .discipline-strip i { display:none; } }
+
+/* Heartlink desktop showcase, derived from the mobile visual direction. */
+.heartlink-desktop-visual { justify-content:center; gap:24px; padding:28px 20px; min-width:0; }
+.heartlink-desktop-image { width:100%; height:auto; border-radius:12px; box-shadow:0 12px 30px #50375615; }
+.concept-caption { font-size:13px; line-height:1.6; color:#715872; margin:0; }
+@media(max-width:760px) { .heartlink-desktop-visual { padding:24px 16px; gap:20px; } .heartlink-desktop-visual .visual-heading { flex-wrap:wrap; } }
