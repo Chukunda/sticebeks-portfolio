@@ -2,5 +2,5 @@
   "name": "creative-developer-portfolio",
   "version": "1.0.0",
   "private": true,
-  "scripts": { "dev": "node preview.cjs", "check": "node --check content.js && node --check script.js && node --check preview.cjs" }
+  "scripts": { "dev": "node preview.cjs", "check": "node --check content.js && node --check script.js && node --check gallery.js && node --check preview.cjs" }
 }

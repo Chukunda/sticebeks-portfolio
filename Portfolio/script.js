@@ -26,8 +26,8 @@ data.training.forEach(training => {
   const header = make('div', 'training-header'); header.append(make('p', 'eyebrow', training.label)); const symbol = make('span', 'training-icon', training.symbol); symbol.setAttribute('aria-hidden', 'true'); header.append(symbol); card.append(header);
   card.append(make('h3', '', training.name), make('p', 'training-description', training.description));
   const list = make('ul', 'training-topics'); training.topics.forEach(topic => list.append(make('li', '', topic))); card.append(list);
-  const bottom = make('div', 'training-price-row'); const price = make('div'); price.append(make('span', 'price-label', training.provisional ? 'PROVISIONAL TRAINING FEE' : 'TRAINING FEE'), make('p', 'price', new Intl.NumberFormat('en-NG', {style:'currency', currency:data.currency, maximumFractionDigits:0}).format(training.price)));
-  const link = make('a', 'button dark', 'Discuss training ↗'); link.href = '#contact'; link.addEventListener('click', () => selectService(training.name)); bottom.append(price, link); card.append(bottom); document.getElementById('training-list').append(card);
+  const bottom = make('div', 'training-price-row'); const price = make('div'); price.append(make('span', 'price-label', 'PERSONALISED LEARNING'), make('p', 'training-quote', 'Let’s find your starting point.'), make('span', 'quote-currency', 'Training quotes in USD')); 
+  const link = make('a', 'button dark', 'Request pricing ↗'); link.href = '#contact'; link.addEventListener('click', () => selectService(training.name)); bottom.append(price, link); card.append(bottom); document.getElementById('training-list').append(card);
 });
 document.querySelectorAll('[data-inquire]').forEach(link => link.addEventListener('click', () => selectService(link.dataset.inquire)));
 const menu = document.querySelector('.menu'); const nav = document.querySelector('nav');
@@ -41,4 +41,4 @@ if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: re
   const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('revealed'); observer.unobserve(entry.target); } }), { threshold: 0.08 });
   document.querySelectorAll('.case-card, .creative-work, .training-card, .about-grid').forEach(node => { node.classList.add('reveal'); observer.observe(node); });
 }
-if (['localhost', '127.0.0.1'].includes(location.hostname) || location.protocol === 'file:') document.querySelector('form').addEventListener('submit', event => { event.preventDefault(); document.querySelector('.form-note').textContent = 'Preview only: nothing was sent. The live Netlify site receives inquiries after form detection is enabled.'; });
+if (['localhost', '127.0.0.1'].includes(location.hostname) || location.protocol === 'file:') document.querySelector('form[name="inquiry"]').addEventListener('submit', event => { event.preventDefault(); document.querySelector('.form-note').textContent = 'Preview only: nothing was sent. The live Netlify site receives inquiries after form detection is enabled.'; });
