@@ -1,35 +1,44 @@
 const data = window.portfolio;
-const make = (tag, cls, text) => { const el = document.createElement(tag); if (cls) el.className = cls; if (text) el.textContent = text; return el; };
-document.querySelectorAll('[data-name]').forEach(el => el.textContent = data.name);
-document.title = `${data.name} — ${data.fullName} | Developer & Creative`;
+const make = (tag, className, text) => { const node = document.createElement(tag); if (className) node.className = className; if (text) node.textContent = text; return node; };
+document.querySelectorAll('[data-name]').forEach(node => node.textContent = data.name);
+document.title = `${data.name} — ${data.fullName} | Code, stories & learning`;
 document.querySelector('meta[property="og:title"]').content = document.title;
-const aboutIntro = document.querySelector('.about-copy > p:not(.eyebrow)');
-aboutIntro.textContent = `I’m ${data.fullName}, also known as ${data.alias}, the creative behind ${data.name}. I work across software development, video editing, content creation, cinematography, and AI tutoring. That mix lets me approach an idea from different angles: how it works, how it feels, and how people connect with it.`;
-const serviceSelect = document.querySelector('select[name="service"]');
-data.services.forEach(s => { if (![...serviceSelect.options].some(o => o.value === s.name)) { const option = make('option', '', s.name); option.value = s.name; serviceSelect.add(option); } });
 document.getElementById('year').textContent = new Date().getFullYear();
-if (data.email) { const a = make('a', '', data.email); a.href = `mailto:${data.email}`; document.getElementById('contact-email').replaceChildren(a); }
-data.projects.forEach((p, i) => {
-  const article = make('article', 'project'); article.dataset.category = p.category;
-  const art = make('div', `project-art ${p.art}`); art.setAttribute('aria-hidden', 'true');
-  if (p.art === 'web') { const mock = make('div', 'mock-browser'); mock.append(make('div', 'mock-top', '● ● ●'), make('div', 'mock-title', 'Ideas into\nexperiences.'), make('div', 'mock-line'), make('div', 'mock-pill', 'Explore →')); art.append(mock); }
-  else if (p.art === 'cinema') { art.append(make('span', 'cinema-sun'), make('span', 'cinema-hill'), make('span', 'cinema-title', 'Every frame,\na feeling.'), make('span', 'cinema-time', 'STORY / LIGHT / MOTION')); }
-  else { art.append(make('span', 'learning-star', '✳'), make('span', 'learning-title', 'A little clarity.\nNew possibilities.'), make('span', 'learning-chip', 'human + AI')); }
-  article.append(art, make('p', 'project-label', `${p.label} / ${String(i + 1).padStart(2, '0')}`), make('h3', '', p.title), make('p', 'project-description', p.description));
-  if (p.url && /^https?:\/\//.test(p.url)) { const a = make('a', 'text-link', 'View project ↗'); a.href = p.url; article.append(a); } else article.append(make('span', 'placeholder-label', 'PROJECT PLACEHOLDER'));
-  document.getElementById('projects').append(article);
+const emailLink = document.getElementById('contact-email');
+emailLink.href = `mailto:${data.email}`;
+emailLink.replaceChildren(document.createTextNode(`${data.email} `), make('span', '', '↗'));
+document.querySelectorAll('a[href^="mailto:"]').forEach(link => link.href = `mailto:${data.email}`);
+data.projects.forEach(project => {
+  if (/^https:\/\//.test(project.url)) document.querySelector(`[data-project-link="${project.id}"]`).href = project.url;
+  document.querySelectorAll(`img[src="assets/${project.id}-dashboard.png"]`).forEach(img => { img.src = project.image; });
+  if (project.role || project.status) document.querySelector(`#${project.id} .case-disclosure`).textContent = [project.role && `My role: ${project.role}.`, project.status && `Status: ${project.status}.`, 'Preview from the supplied Figma design.'].filter(Boolean).join(' ');
 });
-data.services.forEach((s, i) => {
-  const row = make('div', 'service-row'); row.append(make('span', 'service-number', `0${i + 1}`), make('h3', '', s.name));
-  const desc = make('div'); desc.append(make('p', '', s.description), make('p', 'service-items', s.items)); row.append(desc, make('a', 'service-arrow', '↗')); row.lastChild.href = '#contact'; row.lastChild.setAttribute('aria-label', `Inquire about ${s.name}`); document.getElementById('services-list').append(row);
-  const rate = make('article', 'rate-card'); rate.append(make('span', 'rate-number', `0${i + 1}`), make('h3', '', s.name), make('p', 'rate-price', s.rate || 'Custom quote'), make('p', 'rate-scope', s.scope));
-  const link = make('a', 'rate-link', 'Request a quote ↗'); link.href = '#contact'; link.addEventListener('click', () => document.querySelector('select[name="service"]').value = s.name); rate.append(link); document.getElementById('rates').append(rate);
+const serviceSelect = document.querySelector('select[name="service"]');
+function selectService(name) { serviceSelect.value = name; }
+data.services.forEach((service, index) => {
+  const row = make('article', 'service-row'); row.append(make('span', 'service-number', `0${index + 1}`));
+  const icon = make('span', 'service-icon', service.symbol); icon.setAttribute('aria-hidden', 'true'); row.append(icon, make('h3', '', service.name));
+  const copy = make('div', 'service-copy'); copy.append(make('p', '', service.description), make('p', 'service-items', service.items)); row.append(copy);
+  const link = make('a', 'service-arrow', '↗'); link.href = '#contact'; link.setAttribute('aria-label', `Inquire about ${service.name}`); link.addEventListener('click', () => selectService(service.name)); row.append(link); document.getElementById('services-list').append(row);
 });
+data.training.forEach(training => {
+  const card = make('article', `training-card ${training.theme}`);
+  const header = make('div', 'training-header'); header.append(make('p', 'eyebrow', training.label)); const symbol = make('span', 'training-icon', training.symbol); symbol.setAttribute('aria-hidden', 'true'); header.append(symbol); card.append(header);
+  card.append(make('h3', '', training.name), make('p', 'training-description', training.description));
+  const list = make('ul', 'training-topics'); training.topics.forEach(topic => list.append(make('li', '', topic))); card.append(list);
+  const bottom = make('div', 'training-price-row'); const price = make('div'); price.append(make('span', 'price-label', training.provisional ? 'PROVISIONAL TRAINING FEE' : 'TRAINING FEE'), make('p', 'price', new Intl.NumberFormat('en-NG', {style:'currency', currency:data.currency, maximumFractionDigits:0}).format(training.price)));
+  const link = make('a', 'button dark', 'Discuss training ↗'); link.href = '#contact'; link.addEventListener('click', () => selectService(training.name)); bottom.append(price, link); card.append(bottom); document.getElementById('training-list').append(card);
+});
+document.querySelectorAll('[data-inquire]').forEach(link => link.addEventListener('click', () => selectService(link.dataset.inquire)));
 const menu = document.querySelector('.menu'); const nav = document.querySelector('nav');
-function closeMenu() { menu.setAttribute('aria-expanded', 'false'); nav.classList.remove('open'); }
+function closeMenu(returnFocus = false) { menu.setAttribute('aria-expanded', 'false'); nav.classList.remove('open'); if (returnFocus) menu.focus(); }
 menu.addEventListener('click', () => { const open = menu.getAttribute('aria-expanded') !== 'true'; menu.setAttribute('aria-expanded', String(open)); nav.classList.toggle('open', open); });
-nav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeMenu(); menu.focus(); } });
-document.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => { document.querySelectorAll('[data-filter]').forEach(b => { b.classList.toggle('active', b === button); b.setAttribute('aria-pressed', String(b === button)); }); document.querySelectorAll('.project').forEach(p => p.hidden = button.dataset.filter !== 'all' && p.dataset.category !== button.dataset.filter); }));
-if (['localhost', '127.0.0.1'].includes(location.hostname) || location.protocol === 'file:') document.querySelector('form').addEventListener('submit', e => { e.preventDefault(); document.querySelector('.form-note').textContent = 'Local preview only: no inquiry was sent. Deploy to Netlify and enable form detection to receive messages.'; });
-
+nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => closeMenu()));
+document.addEventListener('keydown', event => { if (event.key === 'Escape' && menu.getAttribute('aria-expanded') === 'true') closeMenu(true); });
+document.addEventListener('click', event => { if (!event.target.closest('.header')) closeMenu(); });
+matchMedia('(max-width: 760px)').addEventListener('change', () => closeMenu());
+if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('revealed'); observer.unobserve(entry.target); } }), { threshold: 0.08 });
+  document.querySelectorAll('.case-card, .creative-work, .training-card, .about-grid').forEach(node => { node.classList.add('reveal'); observer.observe(node); });
+}
+if (['localhost', '127.0.0.1'].includes(location.hostname) || location.protocol === 'file:') document.querySelector('form').addEventListener('submit', event => { event.preventDefault(); document.querySelector('.form-note').textContent = 'Preview only: nothing was sent. The live Netlify site receives inquiries after form detection is enabled.'; });

@@ -1,23 +1,20 @@
-// Update your personal information and portfolio content here.
+// Edit personal details, service copy, prices, and project links here.
 window.portfolio = {
-  name: 'Sticebeks',
-  fullName: 'David Chukunda Bekwere',
-  alias: 'DCB',
-  currency: 'NGN',
-  email: 'crowchills@gmail.com',
+  name: 'Sticebeks', fullName: 'David Chukunda Bekwere', alias: 'DCB',
+  email: 'crowchills@gmail.com', currency: 'NGN',
   projects: [
-    { title: 'Your software project', category: 'development', label: 'SOFTWARE DEVELOPMENT', description: 'Add a real project, the problem it solves, your role, and a live or repository link.', url: '', art: 'web' },
-    { title: 'Your film or content project', category: 'film', label: 'FILM & CONTENT', description: 'Add your showreel, a video edit, or a story you captured. Include your role and a viewing link.', url: '', art: 'cinema' },
-    { title: 'Your AI learning experience', category: 'education', label: 'AI EDUCATION', description: 'Add a real workshop, tutorial, or learning resource and explain who it helps.', url: '', art: 'learning' }
+    { id: 'sukulu', title: 'Sukulu', image: 'assets/sukulu-dashboard.png', url: 'https://www.figma.com/design/h02T2DH8KqwZjZ6H5DgZM2/?node-id=325-2747', role: '', status: '' },
+    { id: 'heartlink', title: 'Heartlink', image: 'assets/heartlink-dashboard.png', url: 'https://www.figma.com/design/EbxWBQYrDEor6JqM2DwWpP/?node-id=472-3732', role: '', status: '' }
   ],
   services: [
-    { name: 'Software development', description: 'Thoughtful websites and digital tools built around what you need.', items: 'Websites · Web applications · Custom solutions', rate: '', scope: 'Project planning, responsive interface, development, and handover.' },
-    { name: 'Video editing', description: 'Turn raw footage into a story people want to keep watching.', items: 'Short-form · Long-form · Branded video', rate: '', scope: 'Editing, pacing, basic colour and sound, with revisions agreed in your quote.' },
-    { name: 'Content creation', description: 'Bring your message to life with purposeful, engaging content.', items: 'Social content · Brand storytelling · Creative concepts', rate: '', scope: 'Content direction and agreed creative deliverables for your chosen channels.' },
-    { name: 'Cinematography', description: 'Capture the atmosphere, detail, and moments that tell your story.', items: 'Brand films · Events · Visual storytelling', rate: '', scope: 'Shoot planning and filming, with location, crew, and editing quoted to scope.' },
-    { name: 'AI tutoring', description: 'Practical guidance to help you use AI with confidence.', items: 'One-to-one sessions · Practical workflows · Guided learning', rate: '', scope: 'A focused session tailored to your experience, questions, and learning goals.' },
-    { name: 'CapCut editing training', description: 'Learn video editing in CapCut through one-to-one guidance.', items: 'CapCut · One-to-one training', rate: '₦200,000', scope: 'One-to-one CapCut editing training. Contact me to agree the programme length and schedule.' },
-    { name: 'Content creation training', description: 'Develop your content creation skills with guided training.', items: 'Content creation · Guided learning', rate: '₦200,000', scope: 'Content creation training. Contact me to agree the programme length and schedule.' }
+    { name: 'Software development', symbol: '{ }', description: 'Websites and digital tools shaped around the people who use them.', items: 'Websites / Web applications / Custom solutions' },
+    { name: 'Video editing', symbol: '▷', description: 'Find the rhythm, shape the story, and give every frame a reason to be there.', items: 'Short-form / Long-form / Branded video' },
+    { name: 'Content creation', symbol: '✳', description: 'Creative concepts and content that give your message its own voice.', items: 'Social content / Brand stories / Creative direction' },
+    { name: 'Cinematography', symbol: '⌑', description: 'Capture the light, detail, and moments that bring a story to life.', items: 'Brand films / Events / Visual storytelling' },
+    { name: 'AI tutoring', symbol: '↗', description: 'Make sense of AI through practical guidance centred on what you want to do.', items: 'One-to-one learning / Everyday workflows / Guided practice' }
+  ],
+  training: [
+    { name: 'CapCut editing training', label: 'ONE-TO-ONE / VIDEO EDITING', symbol: '▷', price: 200000, provisional: true, description: 'Get comfortable in CapCut and turn your footage into a story with intention.', topics: ['Editing guidance in CapCut', 'Practice shaped around your questions', 'Programme length and schedule agreed before booking'], theme: 'peach' },
+    { name: 'Content creation training', label: 'CREATIVE LEARNING / CONTENT', symbol: '✳', price: 200000, provisional: true, description: 'Bring more intention to your content, from the first idea to the finished piece.', topics: ['Guided content creation training', 'A focus on your creative goals', 'Programme length and schedule agreed before booking'], theme: 'sage' }
   ]
 };
-
