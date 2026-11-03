@@ -5,6 +5,14 @@
   const prev = document.getElementById('film-prev');
   const next = document.getElementById('film-next');
   let clips = [];
+  let allClips = [];
+  let category = 'All';
+  let cleanup = [];
+  document.querySelectorAll('[data-film-filter]').forEach(button => button.addEventListener('click', () => {
+    category = button.dataset.filmFilter;
+    document.querySelectorAll('[data-film-filter]').forEach(other => other.setAttribute('aria-pressed', String(other === button)));
+    clips = category === 'All' ? allClips : allClips.filter(clip => clip.category === category); render();
+  }));
   let active = 0;
   let observer;
   const local = ['localhost', '127.0.0.1'].includes(location.hostname);
@@ -27,10 +35,11 @@
   let pending;
   track.addEventListener('scroll', () => { cancelAnimationFrame(pending); pending = requestAnimationFrame(updatePosition); }, {passive: true});
   function render() {
+    cleanup.forEach(dispose => dispose()); cleanup = [];
     observer?.disconnect(); track.querySelectorAll('video').forEach(video => { video.pause(); video.removeAttribute('src'); video.load(); });
     track.replaceChildren(); active = 0;
     if (!clips.length) {
-      const empty = element('div', 'film-empty'); empty.append(element('span', 'empty-frame', '▷'), element('h4', '', 'The film collection is on its way.'), element('p', '', 'Have a story to tell? Let’s create it together.'));
+      const empty = element('div', 'film-empty'); empty.append(element('span', 'empty-frame', '▷'), element('h4', '', category === 'All' ? 'The film collection is on its way.' : 'No videos in this category yet.'), element('p', '', 'Have a story to tell? Let’s create it together.'));
       const link = element('a', 'text-link', 'Discuss your film ↗'); link.href = '#contact'; empty.append(link); track.append(empty); status.textContent = ''; updatePosition(); return;
     }
     observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.intersectionRatio < 0.5) entry.target.pause(); }), {threshold: [0, 0.5], root: track});
@@ -48,7 +57,7 @@
           player.src = 'https://www.instagram.com/reel/' + clip.instagram + '/embed/'; player.hidden = false; launch.hidden = true;
         });
         const watch = new IntersectionObserver(entries => entries.forEach(entry => { if(entry.intersectionRatio < 0.5) stop(); }), {root:track, threshold:[0,0.5]}); watch.observe(frame);
-        document.addEventListener('visibilitychange', () => { if(document.hidden) stop(); });
+        const hidePlayer = () => { if(document.hidden) stop(); }; document.addEventListener('visibilitychange', hidePlayer); cleanup.push(() => { watch.disconnect(); stop(); document.removeEventListener('visibilitychange', hidePlayer); });
         frame.append(player, launch);
         const caption = element('div', 'reel-caption'); caption.append(element('h4', '', clip.title));
         const link = element('a', 'text-link', 'Watch on Instagram ↗'); link.href = 'https://www.instagram.com/reel/' + clip.instagram + '/'; link.target = '_blank'; link.rel = 'noopener noreferrer'; caption.append(link);
@@ -70,7 +79,7 @@
   async function load() {
     const response = await fetch('videos.json', {cache: 'no-store'}); if (!response.ok) throw Error('Gallery could not load.');
     const records = await response.json(); if (!Array.isArray(records)) throw Error('Gallery format is invalid.');
-    clips = records.filter(clip => typeof clip.title === 'string' && ((typeof clip.instagram === 'string' && /^[A-Za-z0-9_-]+$/.test(clip.instagram)) || (typeof clip.src === 'string' && /^(assets\/videos\/|https:\/\/)/.test(clip.src)))); render();
+    allClips = records.filter(clip => typeof clip.title === 'string' && ((typeof clip.instagram === 'string' && /^[A-Za-z0-9_-]+$/.test(clip.instagram)) || (typeof clip.src === 'string' && /^(assets\/videos\/|https:\/\/)/.test(clip.src)))); clips = category === 'All' ? allClips : allClips.filter(clip => clip.category === category); render();
   }
   document.addEventListener('visibilitychange', () => { if (document.hidden) track.querySelectorAll('video').forEach(video => video.pause()); });
   window.addEventListener('resize', updatePosition);

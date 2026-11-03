@@ -12,6 +12,7 @@ window.portfolio = {
   ],
   training: [
     { name: 'Video editing & motion training', label: 'ONE-TO-ONE / VIDEO EDITING', symbol: '▷', price: null, description: 'Develop your editing and motion skills, with guidance shaped around your creative goals and the tools you want to use.', topics: ['After Effects, CapCut, editing & motion workflows', 'Practice shaped around your questions', 'Programme length and schedule agreed before booking'], theme: 'peach' },
-    { name: 'Content creation training', label: 'CREATIVE LEARNING / CONTENT', symbol: '✳', price: null, description: 'Bring more intention to your content, from the first idea to the finished piece.', topics: ['Guided content creation training', 'A focus on your creative goals', 'Programme length and schedule agreed before booking'], theme: 'sage' }
+    { name: 'Content creation training', label: 'CREATIVE LEARNING / CONTENT', symbol: '✳', price: null, description: 'Bring more intention to your content, from the first idea to the finished piece.', topics: ['Guided content creation training', 'A focus on your creative goals', 'Programme length and schedule agreed before booking'], theme: 'sage' },
+    { name: 'AI tutoring', label: 'PRACTICAL LEARNING / AI', symbol: '✦', price: null, description: 'Learn to use AI with intention, from useful prompts to creative workflows.', topics: ['Prompting and everyday AI tools', 'AI-assisted content and video workflows', 'One-to-one guidance shaped around your goals'], theme: 'lilac' }
   ]
 };

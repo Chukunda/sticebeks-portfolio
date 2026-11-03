@@ -21,7 +21,7 @@ async function upload(req, res, url) {
   const length = Number(req.headers['content-length']);
   if (!Number.isFinite(length) || length <= 0 || length > maxBytes) return json(res,413,{error:'Choose a non-empty video smaller than 80 MB.'});
   const category = url.searchParams.get('category');
-  if (!['Cinematography','Video editing','Content creation'].includes(category)) return json(res,400,{error:'Choose a valid video category.'});
+  if (!['Cinematography','Video editing','Content creation','AI videos'].includes(category)) return json(res,400,{error:'Choose a valid video category.'});
   saving = true;
   const directory = path.join(root,'assets','videos');
   const filename = `${Date.now()}-${crypto.randomBytes(5).toString('hex')}${extension}`;
