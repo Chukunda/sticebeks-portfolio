@@ -207,3 +207,25 @@ form input, form textarea, form select { font-size:16px; }
   .training-card { padding:24px 18px; }
 }
 @media(hover:none) { .button:hover { transform:none; } }
+
+/* Touch and form interaction polish. */
+.button, .menu, .carousel-arrows button, .service-path-link, .text-link { touch-action:manipulation; }
+.button { min-height:48px; line-height:1.4; }
+.button:active:not(:disabled), .menu:active, .carousel-arrows button:active:not(:disabled) { transform:translateY(1px); }
+button:disabled { cursor:default; }
+form input, form select, form textarea { transition:border-color .15s, box-shadow .15s, background .15s; background:#fffdf9; }
+form input:focus, form select:focus, form textarea:focus { border-color:var(--green); box-shadow:0 0 0 3px #39594b18; outline:2px solid transparent; }
+form input, form select, form textarea, .button { scroll-margin-block:110px; }
+form textarea { resize:vertical; min-height:130px; }
+.form-note[data-state="error"] { color:#8d372d; font-weight:500; }
+form[aria-busy="true"] .form-note { color:var(--green); }
+@supports selector(input:user-invalid) {
+  form input:user-invalid, form select:user-invalid, form textarea:user-invalid { border-color:#a85144; background:#fff9f6; }
+}
+@media(max-width:760px) {
+  .button { border-radius:12px; }
+  form label { line-height:1.6; }
+  form input, form select, form textarea { font-size:16px; }
+  .film-enquiry .text-link, .service-path-link { min-height:48px; }
+  .form-submit .button { width:100%; justify-content:center; gap:16px; }
+}

@@ -41,4 +41,46 @@ if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: re
   const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('revealed'); observer.unobserve(entry.target); } }), { threshold: 0.08 });
   document.querySelectorAll('.case-card, .creative-work, .training-card, .about-grid').forEach(node => { node.classList.add('reveal'); observer.observe(node); });
 }
-if (['localhost', '127.0.0.1'].includes(location.hostname) || location.protocol === 'file:') document.querySelector('form[name="inquiry"]').addEventListener('submit', event => { event.preventDefault(); document.querySelector('.form-note').textContent = 'Preview only: nothing was sent. The live Netlify site receives inquiries after form detection is enabled.'; });
+// Keep native validation and POST fallback; enhance submission when JavaScript is available.
+const inquiry = document.querySelector('form[name="inquiry"]');
+const submitInquiry = inquiry.querySelector('button[type="submit"]');
+const inquiryStatus = inquiry.querySelector('.form-note');
+let sendingInquiry = false;
+inquiry.addEventListener('submit', async event => {
+  event.preventDefault();
+  if (sendingInquiry) return;
+  if (!inquiry.reportValidity()) return;
+  inquiryStatus.removeAttribute('data-state');
+  if (['localhost', '127.0.0.1'].includes(location.hostname) || location.protocol === 'file:') {
+    inquiryStatus.textContent = 'Preview only: your form is valid, but nothing was sent. Sending is available on the live Netlify site.';
+    return;
+  }
+  if (!navigator.onLine) {
+    inquiryStatus.dataset.state = 'error';
+    inquiryStatus.textContent = 'You’re offline. Your message is still here. Reconnect and try again.';
+    return;
+  }
+  sendingInquiry = true; submitInquiry.disabled = true;
+  inquiry.setAttribute('aria-busy', 'true');
+  const originalLabel = submitInquiry.innerHTML;
+  submitInquiry.textContent = 'Sending…'; inquiryStatus.textContent = 'Sending your enquiry. Please keep this page open.';
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 20000);
+  try {
+    const body = new URLSearchParams();
+    new FormData(inquiry).forEach((value, key) => body.append(key, value));
+    const response = await fetch(inquiry.getAttribute('action'), {
+      method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: body.toString(), signal: controller.signal
+    });
+    if (!response.ok) throw Error('Submission failed');
+    location.assign(inquiry.getAttribute('action'));
+  } catch (error) {
+    inquiryStatus.dataset.state = 'error';
+    inquiryStatus.textContent = error.name === 'AbortError'
+      ? 'We couldn’t confirm delivery in time. Your message is still here. You can retry or email me directly.'
+      : 'Your enquiry could not be sent. Your message is still here. Please retry or use the email link above.';
+  } finally {
+    clearTimeout(timeout); sendingInquiry = false; submitInquiry.disabled = false;
+    submitInquiry.innerHTML = originalLabel; inquiry.removeAttribute('aria-busy');
+  }
+});
